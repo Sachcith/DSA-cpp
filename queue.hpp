@@ -1,8 +1,8 @@
-#ifndef stack_H
-#define stack_H
+#ifndef queue_H
+#define queue_H
 
 template <class T>
-class stack{
+class queue{
     private:
         class Node{
             public:
@@ -10,9 +10,10 @@ class stack{
                 Node* next;
         };
         int n;
-        Node* top;
+        Node* front;
+        Node* rear;
     public:
-        stack();
+        queue();
         int size();
         void push(T x);
         bool pop(T &x);
@@ -21,43 +22,49 @@ class stack{
 };
 
 template <class T>
-stack<T>::stack(){
+queue<T>::queue(){
     n = 0;
-    top = nullptr;
+    front = nullptr;
+    rear = nullptr;
 }
 
 template <class T>
-int stack<T>::size(){
+int queue<T>::size(){
     return n;
 }
 
 template <class T>
-void stack<T>::push(T x){
+void queue<T>::push(T x){
     n++;
     Node* new_Node = new Node;
     new_Node->data = x;
-    new_Node->next = top;
-    top = new_Node;
+    if(front==nullptr){
+        front = new_Node;
+        rear = new_Node;
+        return;
+    }
+    rear->next = new_Node;
+    rear = new_Node;
 }
 
 template <class T>
-bool stack<T>::pop(T &x){
+bool queue<T>::pop(T &x){
     if(n==0) return false;
     n--;
-    x = top->data;
-    top = top->next;
+    x = front->data;
+    front = front->next;
     return true;
 }
 
 template <class T>
-bool stack<T>::peek(T &x){
+bool queue<T>::peek(T &x){
     if(n==0) return false;
-    x = top->data;
+    x = front->data;
     return true;
 }
 
 template <class T>
-bool stack<T>::isEmpty(){
+bool queue<T>::isEmpty(){
     if(n==0) return true;
     return false;
 }
